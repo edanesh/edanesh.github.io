@@ -1,0 +1,84 @@
+---
+title: "Weight Lifting Exercises Prediction Assignment"
+author: "E Danesh"
+date: "21/07/2018"
+output: html_document
+---
+#Introduction
+The objective of this project is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants who were asked to perform barbell lifts correctly and incorrectly in 5 different ways. A model is built based on selected features from the data to predict the correct excercise (class A) and common mistakes (class B,C,D and E).  
+
+More information is available from the website here: http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har
+(see the section on the Weight Lifting Exercise Dataset).
+
+##1. Training data
+
+after downloading traning data set (csv format), load it in R. The training data for this project are available here:
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+
+```{r message=FALSE, cache=TRUE}
+#Data were read in 2 data frames
+training_data <- read.csv("pml-training.csv")
+dim(training_data)
+```
+
+##2. Selecting features
+training_data consists of 160 variables and 19622 observations. Based on the codebook, variable names prefixed with "kurtosis_", "skewness_", "max_", "min_", "amplitude_", "var_", "avg_", and "stddev_", correspond to  summary statistics calculated from the raw data at a measurement boundary. These are very sparse and/or contain very high proportions of missing values and/or "#DIV/0!" error values. Rather than impute for missing and error values, raw sensor data was used to build the model.
+
+```{r}
+varnames <- colnames(training_data)
+selected_cols <- grep("^(roll)|^(pitch)|^(yaw)|^(gyros)|^(accel)|^(magnet)|^(classe)", varnames)
+
+#only keep selected columns
+training <- training_data[,selected_cols]
+training$classe <- factor(training$classe)
+```
+
+##3. Data slicing
+training data was in turn divided in to train and test datasets to build and verify the model.
+
+```{r warning=FALSE}
+#loading caret library
+library(caret)
+set.seed(669)
+inTrain = createDataPartition(training$classe , p = 3/4)[[1]]
+train = training[ inTrain,]
+test = training[-inTrain,]
+```
+
+##4. Random forests
+Random forests was chosen to build the predictiopn model since it's one of the most widely used and highly accurate methods for prediction. I acknowledge that this method is relatively slow (it took 1 hour and half on my system to build the model!). However, the accuracy is high (~0.99)
+
+```{r cache=TRUE}
+modfit_rf <- train(classe ~ . , data = train, method="rf")
+print(modfit_rf)
+```
+
+##5. Prediction
+The final model was used to predict excercise classes in the test data set. Then, a confusion matrix was build.
+
+```{r}
+pred_rf <- predict(modfit_rf, test)
+t_rf <- table(pred_rf, test$classe)
+confusionMatrix(t_rf)
+```
+##6. Visualisation
+
+rf variable importance table is shown below:
+```{r}
+varImp(modfit_rf)
+```
+
+roll_belt and pitch_forearm appear to be the two most important variable in our rf model. Therefore, we use them to visualise the "correctness" of the model in predicting excercise classes in the test dataset.
+
+```{r fig.cap=c("Figure 1. test data set", "Figure 2. visualising correctly classified and miss-classified observations by the random forests model")}
+p1 <-  qplot(roll_belt, pitch_forearm, col=classe, data=test)
+p1
+test$pred_right <- pred_rf == test$classe
+p2 <- qplot(roll_belt, pitch_forearm, col=pred_right, alpha=I(1/2), data=test)
+p2
+```
+
+In Fig.1, each data point represents an observation in the test data set, and each colour corresponds to one of the 5 classes. As can be seen in Fig.2, there are only a few observations miss-classified (coloured red).
+
+#References
+Velloso, E.; Bulling, A.; Gellersen, H.; Ugulino, W.; Fuks, H. Qualitative Activity Recognition of Weight Lifting Exercises. Proceedings of 4th International Conference in Cooperation with SIGCHI (Augmented Human '13) . Stuttgart, Germany: ACM SIGCHI, 2013.
