@@ -1,0 +1,49 @@
+---
+title: "London Air Quality"
+author: "E Danesh"
+date: "01/09/2018"
+output:
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(leaflet)
+```
+
+***
+
+### List of DEFRA Air Quality Monitring Sites in Greater London
+Date: 01 Sep 2018
+
+
+```{r,  comment = FALSE, message=FALSE}
+sites <- data.frame(names = c("Camden Kerbside", "Ealing Horn Lane", "Haringey Roadside", "London Bexley", "London Bloomsbury", "London Eltham", "London Haringey Priory Park South", "London Harlington", "London Hillingdon", "London Marylebone Road", "London N. Kensington", "London Teddington Bushy Park", "London Westminster", "Southwark A2 Old Kent Road", "Tower Hamlets Roadside"),
+                  index = c(2,1,2,1,4,2,1,1,1,6,3,1,5,1,2),
+                  lat = c(51.544210, 51.518950, 51.599300, 51.466030, 51.522290, 51.452580, 51.584128, 51.488790, 51.496330,51.522530, 51.521050, 51.425286, 51.494670, 51.480499, 51.522530),
+                  lng = c(-0.175269, -0.265617, -0.068218, 0.184806, -0.125889, 0.070766,-0.125254, -0.441614, -0.460861, -0.154611, -0.213492, -0.345606, -0.131931, -0.059550, -0.042155))
+
+getColor <- function(sites) {
+  sapply(sites$index, function(index) {
+  if(index <= 2) {
+    "green"
+  } else if(index <= 4) {
+    "orange"
+  } else {
+    "red"
+  } })
+}
+
+icons <- awesomeIcons(
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = getColor(sites)
+)
+
+sites %>% leaflet() %>% addTiles() %>% addAwesomeMarkers(icon=icons, label=~names) %>% addLegend(title = "Air Polution Level", labels = c("High", "Medium", "Low"), colors = c("red", "orange", "green"))
+```
+
+
+
+
