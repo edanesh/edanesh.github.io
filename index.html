@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
+        <title>Advanced Sensing Technologies | Technical Consultancy</title>
+        <meta name="description" content="Advanced Sensing Technologies Ltd. is a specialist technology consultancy based in London, UK. We provide world-class innovative gas sensor technologies and air quality monitoring solutions to universities, research organisations and industries across the globe. Our specialty is gas and air quality sensors, and advanced machine learning algorithms." />
         <meta name="author" content="" />
-        <title>Coming Soon - Start Bootstrap Theme</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -24,12 +24,13 @@
             <div class="masthead-content text-white">
                 <div class="container-fluid px-4 px-lg-0">
                     <h1 class="fst-italic lh-1 mb-4">We're Getting a Fresh New Look</h1>
-                    <p class="mb-5">Exciting changes are coming to Advanced Sensing Technologies (Adsentec). Sign up to be the first to see our redesigned website and discover what's new.</p>
+                    <p class="mb-5">Exciting changes are coming to Adsentec!
+                                    <br>Leave your email address below, and we'll contact you as soon as our redesigned website is launched.</p>
                     <!-- * * * * * * * * * * * * * * *-->
                     <form id="contactForm" action="https://formspree.io/f/xeoobvlw" method="POST">
                         <div class="row input-group-newsletter">
                             <div class="col"><input class="form-control" id="email" type="email" placeholder="Enter email address..." aria-label="Enter email address..." data-sb-validations="required,email" /></div>
-                            <div class="col-auto"><button class="btn btn-primary" id="submitButton" type="submit">Notify Me!</button></div>
+                            <div class="col-auto"><button class="btn btn-primary" id="submitButton" type="submit">Contact Us</button></div>
                         </div>
                         <div class="invalid-feedback mt-2" data-sb-feedback="email:required">An email is required.</div>
                         <div class="invalid-feedback mt-2" data-sb-feedback="email:email">Email is not valid.</div>
@@ -55,65 +56,15 @@
                 <a class="btn btn-dark m-3" href="https://www.linkedin.com/company/adsentec" target="_blank"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
+        <!-- footer -->
+        <footer class="footer text-center">
+            <div class="container">
+                <p class="text-muted small mb-0">Copyright &copy; Advanced Sensing Technologies Ltd. 2025</p>
+            </div>
+        </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-        <!-- Place this script at the end of the body tag -->
-        <script>
-        var form = document.getElementById("contactForm");
-
-        async function handleSubmit(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Get the email value
-        var email = document.getElementById("email").value;
-
-        // Create a JSON object with the email
-        var formData = JSON.stringify({ email: email });
-
-        // Send the data to Formspree using fetch
-        fetch(event.target.action, {
-            method: form.method,
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-            // Formspree responded with success
-            // Show success message and reset the form
-            document.getElementById("submitSuccessMessage").classList.remove("d-none");
-            document.getElementById("contactForm").reset();
-            } else {
-            // Formspree responded with an error
-            // Show error message
-            response.json().then(data => {
-                if (Object.hasOwn(data, 'errors')) {
-                document.getElementById("submitErrorMessage").innerHTML = data["errors"].map(error => error["message"]).join(", ");
-                } else {
-                document.getElementById("submitErrorMessage").innerHTML = "Oops! There was a problem submitting your form";
-                }
-            })
-            .catch(error => {
-                // Handle fetch error
-                document.getElementById("submitErrorMessage").innerHTML = "Oops! There was a problem submitting your form";
-            });
-            }
-        })
-        .catch(error => {
-            // Handle fetch error
-            document.getElementById("submitErrorMessage").innerHTML = "Oops! There was a problem submitting your form";
-        });
-        }
-
-        form.addEventListener("submit", handleSubmit);
-        </script>
     </body>
 </html>

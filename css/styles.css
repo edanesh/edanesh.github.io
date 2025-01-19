@@ -10974,3 +10974,17 @@ video.bg-video {
 .social-icons .fa-linkedin {
   font-size: 2em; /* Adjust the value as needed */
 }
+.footer {
+  text-align: center;
+  position: relative;
+  z-index: 5; /* Ensure footer is above background */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  padding: 1rem 0; /* Add some padding for better visual spacing */
+  margin-top: 2rem; /* Add margin to separate from content above */
+}
+
+.footer p {
+  font-size: 0.8em;
+  color: #999999; /* This sets the font color to grey */
+  margin-bottom: 0; /* Remove default paragraph margin */
+}
