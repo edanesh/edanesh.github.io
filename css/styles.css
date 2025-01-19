@@ -93,7 +93,10 @@
 
 body {
   margin: 0;
+  /*
   font-family: var(--bs-body-font-family);
+  */
+  font-family: Arial, Helvetica, sans-serif;
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
@@ -10965,4 +10968,9 @@ video.bg-video {
     right: 2.5rem;
     width: auto;
   }
+}
+
+/* my modification */
+.social-icons .fa-linkedin {
+  font-size: 2em; /* Adjust the value as needed */
 }
