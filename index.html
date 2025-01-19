@@ -26,36 +26,18 @@
                     <h1 class="fst-italic lh-1 mb-4">We're Getting a Fresh New Look</h1>
                     <p class="mb-5">Exciting changes are coming to Advanced Sensing Technologies (Adsentec). Sign up to be the first to see our redesigned website and discover what's new.</p>
                     <!-- * * * * * * * * * * * * * * *-->
-                    <!-- * * SB Forms Contact Form * *-->
-                    <!-- * * * * * * * * * * * * * * *-->
-                    <!-- This form is pre-integrated with SB Forms.-->
-                    <!-- To make this form functional, sign up at-->
-                    <!-- https://startbootstrap.com/solution/contact-forms-->
-                    <!-- to get an API token!-->
                     <form id="contactForm" action="https://formspree.io/f/xeoobvlw" method="POST">
-                        <!-- Email address input-->
                         <div class="row input-group-newsletter">
                             <div class="col"><input class="form-control" id="email" type="email" placeholder="Enter email address..." aria-label="Enter email address..." data-sb-validations="required,email" /></div>
                             <div class="col-auto"><button class="btn btn-primary" id="submitButton" type="submit">Notify Me!</button></div>
                         </div>
                         <div class="invalid-feedback mt-2" data-sb-feedback="email:required">An email is required.</div>
                         <div class="invalid-feedback mt-2" data-sb-feedback="email:email">Email is not valid.</div>
-                        <!-- Submit success message-->
-                        <!---->
-                        <!-- This is what your users will see when the form-->
-                        <!-- has successfully submitted-->
                         <div class="d-none" id="submitSuccessMessage">
                             <div class="text-center mb-3 mt-2">
                                 <div class="fw-bolder">Form submission successful!</div>
-                                To activate this form, sign up at
-                                <br />
-                                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
                             </div>
                         </div>
-                        <!-- Submit error message-->
-                        <!---->
-                        <!-- This is what your users will see when there is-->
-                        <!-- an error submitting the form-->
                         <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3 mt-2">Error sending message!</div></div>
                     </form>
                 </div>
@@ -82,5 +64,56 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <!-- Place this script at the end of the body tag -->
+        <script>
+        var form = document.getElementById("contactForm");
+
+        async function handleSubmit(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get the email value
+        var email = document.getElementById("email").value;
+
+        // Create a JSON object with the email
+        var formData = JSON.stringify({ email: email });
+
+        // Send the data to Formspree using fetch
+        fetch(event.target.action, {
+            method: form.method,
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+            // Formspree responded with success
+            // Show success message and reset the form
+            document.getElementById("submitSuccessMessage").classList.remove("d-none");
+            document.getElementById("contactForm").reset();
+            } else {
+            // Formspree responded with an error
+            // Show error message
+            response.json().then(data => {
+                if (Object.hasOwn(data, 'errors')) {
+                document.getElementById("submitErrorMessage").innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                } else {
+                document.getElementById("submitErrorMessage").innerHTML = "Oops! There was a problem submitting your form";
+                }
+            })
+            .catch(error => {
+                // Handle fetch error
+                document.getElementById("submitErrorMessage").innerHTML = "Oops! There was a problem submitting your form";
+            });
+            }
+        })
+        .catch(error => {
+            // Handle fetch error
+            document.getElementById("submitErrorMessage").innerHTML = "Oops! There was a problem submitting your form";
+        });
+        }
+
+        form.addEventListener("submit", handleSubmit);
+        </script>
     </body>
 </html>
